@@ -76,12 +76,12 @@ async def help(message: types.Message):
     if not sql.user_exists(message.from_user.id):
         sql.add_user(message.from_user.id, message.from_user.full_name)
     grades = sql.all_grades(), sql.all_grades_id()
-    await message.answer("Приветствую тебя, путник. Выбери свой отряд:\nИ если по пути позникнут проблемы отправь мне голубя @lixelv", reply_markup=build_kb(grades[0], grades[1]))
-    
+    await message.answer("Приветствую тебя, путник. Выбери свой отряд:\nИ если по пути позникнут проблемы отправь мне голубя @lixelv\nСуть бота в том, чтобы получать сообщения о следующем уроке, и том, где он находится. После выбора класса все происходит автоматически.", reply_markup=build_kb(grades[0], grades[1]))
+
 @dp.callback_query(Callback.filter(F.data.split("_")[0] == "grade"))
 async def answer(query: types.CallbackQuery, callback_data: Callback):
     sql.update_grade(query.from_user.id, callback_data.data.split("_")[1])
-    await query.message.answer("Вы выбрали правильный отряд!", show_alert=True)
+    await query.message.answer("Хороший выбор!", show_alert=True)
 # endregion
 
 
